@@ -1,0 +1,27 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: "webapp-infnet-studies-mngmt"
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+    - infnet-network
+  database:
+    image: mysql:latest
+    container_name: "infnet-studies-mngmt-db"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: infnet-studies-mngmt-db
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    ports:
+      - "3306:3306"
+    networks:
+          - infnet-network
+networks:
+  infnet-network:
+    driver: bridge
