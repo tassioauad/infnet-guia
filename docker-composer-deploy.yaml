@@ -1,0 +1,38 @@
+services:
+  app:
+    image: tassioauad/infnet-guia-app
+    deploy:
+      replicas: 4
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 3000
+        published: 80
+        mode: ingress
+    networks:
+      - infnet-network
+  database:
+    image: mysql:latest
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: infnet-studies-mngmt-db
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: mypassword
+    expose:
+      - 3306
+    volumes:
+      - /mnt/data/mysql_data:/var/lib/mysql
+    networks:
+      - infnet-network
+networks:
+  infnet-network:
+    driver: overlay
