@@ -33,6 +33,23 @@ services:
       - /mnt/data/mysql_data:/var/lib/mysql
     networks:
       - infnet-network
+  prometheus:
+    image: prom/prometheus
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+      restart_policy:
+        condition: on-failure
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    expose:
+      - 9090
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+      - /mnt/data/prometheus_data:/prometheus
+    networks:
+      - infnet-network
 networks:
   infnet-network:
     driver: overlay
