@@ -65,6 +65,22 @@ services:
       - /mnt/data/prometheus_data:/prometheus
     networks:
       - infnet-network
+  grafana:
+    image: grafana/grafana
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/datasources
+      - /mnt/data/grafana_data:/var/lib/grafana
+    networks:
+      - infnet-network
 networks:
   infnet-network:
     driver: overlay
