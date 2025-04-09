@@ -33,8 +33,8 @@ jobs:
 
     - name: Build the Docker image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/my-app:$DOCKER_TAG .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/infnet-guia-app:$DOCKER_TAG .
 
     - name: Push the Docker image to Docker Hub
       run: |
-        docker push ${{ secrets.DOCKER_USERNAME }}/my-app:$DOCKER_TAG
+        docker push ${{ secrets.DOCKER_USERNAME }}/infnet-guia-app:$DOCKER_TAG
